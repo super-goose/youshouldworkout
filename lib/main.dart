@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'You Should...',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF22D6FF)),
@@ -40,22 +40,24 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('A random idea::::'),
-            BigCard(pair: pair),
-            ElevatedButton(
-              onPressed: () {
-                appState.getNext();
-                // print('button pressed!');
-              },
-              child: Text('Next'),
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('A random idea::::'),
+              BigCard(pair: pair),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                  // print('button pressed!');
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
         ),
       ),
     );
