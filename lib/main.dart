@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'You Should...',
         theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF22D6FF)),
-        ),
+            useMaterial3: true,
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFF22D6FF)),
+            scaffoldBackgroundColor: Color.fromRGBO(32, 32, 32, 1.0)),
         home: MyHomePage(),
       ),
     );
@@ -32,15 +33,39 @@ class MyAppState extends ChangeNotifier {
     current = WordPair.random();
     notifyListeners();
   }
+
+  var favorites = <WordPair>[];
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
+    }
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
+    IconData icon;
+    if (appState.favorites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_border;
+    }
+
     return SafeArea(
+      // style: style,
       child: Scaffold(
         body: Center(
           child: Column(
@@ -49,13 +74,25 @@ class MyHomePage extends StatelessWidget {
             children: [
               Text('A random idea::::'),
               BigCard(pair: pair),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                  // print('button pressed!');
-                },
-                child: Text('Next'),
-              ),
+              SizedBox(height: 20),
+              Row(mainAxisSize: MainAxisSize.min, children: [
+                ElevatedButton.icon(
+                  icon: Icon(icon),
+                  onPressed: () {
+                    appState.toggleFavorite();
+                    // print('button pressed!');
+                  },
+                  label: Text('I like it!'),
+                ),
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    appState.getNext();
+                    // print('button pressed!');
+                  },
+                  child: Text('Next'),
+                ),
+              ]),
             ],
           ),
         ),
@@ -91,6 +128,7 @@ class BigCard extends StatelessWidget {
     );
   }
 }
+
 // import 'package:flutter/material.dart';
 
 // void main() {
