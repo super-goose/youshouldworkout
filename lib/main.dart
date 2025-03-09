@@ -153,9 +153,8 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
+    final style = theme.textTheme.displayMedium!
+        .copyWith(color: theme.colorScheme.onPrimary, fontFamily: "Overlock");
 
     var appState = context.watch<MyAppState>();
 
@@ -199,9 +198,8 @@ class BigCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
+    final style = theme.textTheme.displayMedium!
+        .copyWith(color: theme.colorScheme.onPrimary, fontFamily: "Overlock");
 
     return Card(
       color: theme.colorScheme.primary,
