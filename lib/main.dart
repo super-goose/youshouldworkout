@@ -65,40 +65,59 @@ class _MyHomePageState extends State<MyHomePage> {
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
+
+    final theme = Theme.of(context);
+    final WidgetStateProperty labelTextStyle =
+        WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
+      WidgetState.focused: Colors.blueAccent,
+      WidgetState.pressed | WidgetState.hovered: Colors.blue,
+      WidgetState.any: Colors.red,
+    });
+    //     WidgetStateProperty.fromMap(map: {
+    //   WidgetState.error: Colors.red,
+    //   WidgetState.hovered & WidgetState.focused: Colors.blueAccent,
+    //   WidgetState.focused: Colors.blue,
+    //   ~WidgetState.disabled: Colors.black,
+    // });
+    // final style = theme.textTheme.displayMedium!
+    //     .copyWith(color: theme.colorScheme.onPrimary, fontFamily: "Overlock");
+
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        body: Row(
-          children: [
-            SafeArea(
-              child: NavigationRail(
-                backgroundColor: Color.fromRGBO(64, 64, 64, 1.0),
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
-                  ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-              ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color.fromRGBO(64, 64, 64, 1.0),
+          // indicatorColor: Color(0xFF22D6FF),
+          showUnselectedLabels: false,
+          selectedItemColor: Color.fromARGB(255, 24, 152, 181),
+          unselectedItemColor: Color(0xFFDDDDDD),
+          // labelTextStyle: TextStyle(color: Color(0xFFFF0000)),
+          unselectedLabelStyle: TextStyle(color: Color(0xFFFF0000)),
+          selectedLabelStyle: TextStyle(color: Color(0xFFFF0000)),
+          // selectedItemColor: TextStyle(color: Color(0xFFFF0000)),
+          // unselectedItemColor: TextStyle(color: Color(0xFFFF0000)),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
             ),
-            Expanded(
-              child: Container(
-                color: Color.fromRGBO(32, 32, 32, 1.0),
-                // color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Favorites',
             ),
           ],
+          currentIndex: selectedIndex,
+          onTap: (value) => setState(() => selectedIndex = value),
+          // selectedIndex: selectedIndex,
+          // onDestinationSelected: (value) {
+          //   setState(() {
+          //     selectedIndex = value;
+          //   });
+          // },
+        ),
+        body: Container(
+          color: Color.fromRGBO(32, 32, 32, 1.0),
+          // color: Theme.of(context).colorScheme.primaryContainer,
+          child: page,
         ),
       );
     });
